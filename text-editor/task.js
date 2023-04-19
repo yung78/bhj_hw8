@@ -1,27 +1,21 @@
 const editor = document.getElementById("editor");
 const btn = document.querySelector(".clear_all");
-let saveText = "";
 
 editor.addEventListener("keydown", () => {
-    saveText = editor.value;
-
-    dataSave();
+    dataSave(editor.value);
 });
 
 btn.addEventListener("click", () => {
-    saveText = "";
     editor.value = "";
 
-    dataSave();
+    dataSave(editor.value);
 });
 
-function dataSave() {
-    let toLoad = JSON.stringify(saveText);
-    localStorage.setItem("toLoad", toLoad);
+function dataSave(text) {
+    localStorage.setItem("toLoad", text);
 };
 
 window.addEventListener("load", () => {
-    let loadItem = JSON.parse(localStorage.getItem("toLoad"));
-    editor.value = loadItem;
+    editor.value = localStorage.getItem("toLoad");
 });
 

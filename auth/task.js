@@ -11,15 +11,16 @@ function httpRequest (request, url, body) {
 };
 
 function dataSave(saveText) {
-    let save = JSON.stringify(saveText);
-    localStorage.setItem("toLoad", save);
+    localStorage.setItem("toLoad", saveText);
 };
 
 function signout() {
     const logout = document.getElementById("signout__btn");
     logout.onclick = (() => {
         dataSave("");
-        location.reload();
+        welcome.className = "welcome";
+        sign.className += " signin_active";
+        form.reset()
     });
 };
 
@@ -33,15 +34,13 @@ btn.onclick = (() => {
         if (response.success) {
             sign.className = "signin";
             id.textContent = response["user_id"];
-            welcome.className += "welcome_active";
+            welcome.className += " welcome_active";
 
             signout();
             dataSave(response["user_id"]);
         } else {
             confirm("Неверный логин/пароль");
-            for (el of document.querySelectorAll(".control")) {
-                el.value = ""
-            };
+            form.reset()
         };
     });
 
@@ -51,7 +50,7 @@ btn.onclick = (() => {
 });
 
 window.addEventListener("load", () => {
-    let loadItem = JSON.parse(localStorage.getItem("toLoad")) || 0;
+    let loadItem = localStorage.getItem("toLoad") || 0;
     if (loadItem) {
         sign.className = "signin";
         id.textContent = loadItem;
